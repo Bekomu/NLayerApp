@@ -11,7 +11,7 @@ namespace NLayer.Core.Repositories
     {
         Task<T> GetByIdAsync(int id);
 
-        IQueryable<T> GetAll(Expression<Func<T, bool>> expression);
+        IQueryable<T> GetAll();
 
         // productRepo.Where(x => x.id > 5).ToListAsync();
         IQueryable<T> Where(Expression<Func<T, bool>> expression);
@@ -27,6 +27,6 @@ namespace NLayer.Core.Repositories
 
         void Remove(T entity);
 
-        void RemoveRage(IEnumerable<T> entities);
+        void RemoveRange(IEnumerable<T> entities);
     }
 }

@@ -19,7 +19,7 @@ namespace NLayer.Core.Services
 
         Task<T> AddAsync(T entity);
 
-        Task<T> AddRangeAsync(IEnumerable<T> entities);
+        Task<IEnumerable<T>> AddRangeAsync(IEnumerable<T> entities);
 
         Task UpdateAsync(T entity);
 
