@@ -18,9 +18,9 @@ namespace NLayer.Core.Repositories
         
         Task<bool> AnyAsync(Expression<Func<T, bool>> expression);
 
-        Task<T> AddAsync(T entity);
+        Task AddAsync(T entity);
 
-        Task<T> AddRangeAsync(IEnumerable<T> entities);
+        Task AddRangeAsync(IEnumerable<T> entities);
 
         // update async değil çünkü bu entity, efcore tarafından memory de takip edilen state i değiştiriyoruz.
         void Update(T entity);

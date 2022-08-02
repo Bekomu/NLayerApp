@@ -1,4 +1,5 @@
-﻿using NLayer.Core.Repositories;
+﻿using Microsoft.EntityFrameworkCore;
+using NLayer.Core.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,49 +16,58 @@ namespace NLayer.Repository.Repositories
     {
         protected readonly AppDbContext _context;
 
-        public Task<T> AddAsync(T entity)
+        private readonly DbSet<T> _dbSet;
+
+        public GenericRepository(AppDbContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
+            _dbSet = _context.Set<T>();
         }
 
-        public Task<T> AddRangeAsync(IEnumerable<T> entities)
+        public async Task AddAsync(T entity)
         {
-            throw new NotImplementedException();
+            await _dbSet.AddAsync(entity);
         }
 
-        public Task<bool> AnyAsync(Expression<Func<T, bool>> expression)
+        public async Task AddRangeAsync(IEnumerable<T> entities)
         {
-            throw new NotImplementedException();
+            await _dbSet.AddRangeAsync(entities);
+        }
+
+        public async Task<bool> AnyAsync(Expression<Func<T, bool>> expression)
+        {
+            return await _dbSet.AnyAsync(expression);
         }
 
         public IQueryable<T> GetAll(Expression<Func<T, bool>> expression)
         {
-            throw new NotImplementedException();
+            return _dbSet.AsNoTracking().AsQueryable(); 
+            // AsNoTracking; ef core çekmiş olduğu dataları memory ye alıp bekletmesin.
         }
 
-        public Task<T> GetByIdAsync(int id)
+        public async Task<T> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _dbSet.FindAsync(id);
         }
 
         public void Remove(T entity)
         {
-            throw new NotImplementedException();
+            _dbSet.Remove(entity);
         }
 
         public void RemoveRage(IEnumerable<T> entities)
         {
-            throw new NotImplementedException();
+            _dbSet.RemoveRange(entities);
         }
 
         public void Update(T entity)
         {
-            throw new NotImplementedException();
+            _dbSet.Update(entity);
         }
 
         public IQueryable<T> Where(Expression<Func<T, bool>> expression)
         {
-            throw new NotImplementedException();
+            return _dbSet.Where(expression);
         }
     }
 }
