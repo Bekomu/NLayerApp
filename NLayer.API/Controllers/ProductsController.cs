@@ -7,17 +7,24 @@ using NLayer.Core.Services;
 
 namespace NLayer.API.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
     public class ProductsController : CustomBaseController
     {
         private readonly IMapper _mapper;
         private readonly IService<Product> _service;
+        private readonly IProductService _productService;
 
-        public ProductsController(IMapper mapper, IService<Product> service)
+        public ProductsController(IMapper mapper, IService<Product> service, IProductService productService)
         {
             _mapper = mapper;
             _service = service;
+            _productService = productService;
+        }
+
+        // get   api/products/GetProductsWithCategory
+        [HttpGet("GetProductsWithCategory")]
+        public async Task<IActionResult> GetProductsWithCategory(int id)
+        {
+            return CreateActionResult(await _productService.GetProductsWithCategory());
         }
 
 
@@ -67,5 +74,6 @@ namespace NLayer.API.Controllers
             await _service.RemoveAsync(product);
             return CreateActionResult(CustomResponseDTO<NoContentDTO>.Success(200));
         }
+
     }
 }
