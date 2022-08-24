@@ -1,3 +1,4 @@
+using Autofac.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using NLayer.Core.Repositories;
 using NLayer.Core.Services;
@@ -29,12 +30,11 @@ builder.Services.AddDbContext<AppDbContext>(x =>
     {
         x.UseSqlServer(builder.Configuration.GetConnectionString("Cumlem"), options =>
         {
-
             options.MigrationsAssembly(Assembly.GetAssembly(typeof(AppDbContext)).GetName().Name);
-
         });
     });
 
+builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
 
 var app = builder.Build();
 
